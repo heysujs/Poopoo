@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#101619" />
+    <meta name="description" content="Deep Core — a first-person mining adventure to the center of the Earth." />
+    <title>DEEP CORE — Dig Beyond</title>
+    <script type="module" crossorigin src="./assets/index-BaOm3u4I.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-BvnECIt7.css">
+  </head>
+  <body>
+    <div id="game">
+      <canvas id="scene" aria-label="First person view of a mining site"></canvas>
+      <div class="grain" aria-hidden="true"></div>
+      <header class="topbar">
+        <a class="brand" href="#" aria-label="Deep Core home"><span class="brand-mark">D<span>·</span></span><span>DEEP<span class="brand-light">CORE</span><small>FRONTIER MINING CO.</small></span></a>
+        <div class="top-status"><span class="live-dot"></span><span>DRILL SITE 04</span><span class="status-divider"></span><span id="zone-label">SURFACE CAMP</span></div>
+        <button id="sound-button" class="icon-button" aria-label="Toggle sound" title="Toggle sound">♪</button>
+      </header>
+      <main>
+        <section id="welcome" class="welcome-panel">
+          <div class="eyebrow"><span class="eyebrow-line"></span> FIELD OPERATION 01</div>
+          <h1>THE WAY<br />IS <em>DOWN.</em></h1>
+          <p class="intro">A few meters of dirt. A few thousand more of ambition. Dig through the layers, build your rig, and find out what’s waiting at the center.</p>
+          <div class="welcome-meta"><span><b>6,371</b> METERS TO THE CORE</span><span class="meta-separator">/</span><span>NO WAY BUT THROUGH</span></div>
+          <button id="start-button" class="primary-button"><span>START THE DESCENT</span><span class="button-arrow">↗</span></button>
+          <div class="start-note">WASD TO WALK <i>·</i> MOUSE TO LOOK <i>·</i> E TO INTERACT</div>
+        </section>
+        <section id="hud" class="hud hidden" aria-live="polite">
+          <div class="hud-left">
+            <div class="depth-card"><span class="card-label"><span class="tiny-dot"></span> DEPTH REACHED</span><div class="depth-value"><span id="depth-value">0</span><small>m</small></div><div class="depth-track"><span id="depth-fill"></span></div><div class="depth-foot"><span>EARTH'S CORE</span><span>6,371 m</span></div></div>
+            <div class="resource-card"><div><span class="resource-icon cash">$</span><span class="resource-label">CREDITS</span><b id="cash-value">180</b></div><div><span class="resource-icon fuel">⌁</span><span class="resource-label">DRILL OIL</span><b><span id="fuel-value">36</span><small> L</small></b></div></div>
+          </div>
+          <div class="hud-right"><div class="layer-chip"><span class="tiny-dot"></span><span id="layer-name">SURFACE CRUST</span></div><div class="progress-card"><div class="progress-heading"><span>ORE COLLECTED</span><b id="ore-count">0</b></div><div class="ore-dots" id="ore-dots"></div><p id="progress-copy">Mine the exposed seam to clear this layer.</p></div></div>
+          <div id="crosshair" class="crosshair"><span></span><span></span><i></i></div>
+          <div id="mining-label" class="mining-label hidden">HOLD <b>E</b> OR CLICK TO MINE</div>
+          <div id="prompt" class="prompt hidden"><kbd>E</kbd><span id="prompt-text"></span></div>
+          <div id="toast" class="toast"></div>
+          <div class="bottom-hint"><span id="zone-hint">WASD MOVE <i>·</i> MOUSE LOOK</span><span><kbd>ESC</kbd> PAUSE <i>·</i> <kbd>R</kbd> RETURN TO CAMP</span></div>
+        </section>
+        <section id="panel-backdrop" class="panel-backdrop hidden">
+          <div id="interaction-panel" class="interaction-panel"></div>
+        </section>
+        <section id="pause-screen" class="pause-screen hidden"><div class="pause-card"><span class="eyebrow">ON HOLD</span><h2>TAKE A BREATHER.</h2><p>The ground isn’t going anywhere.</p><button id="resume-button" class="primary-button"><span>BACK TO WORK</span><span class="button-arrow">↗</span></button></div></section>
+      </main>
+      <div class="corner-tag">FIELD NOTES <span>—</span> 04 / 01</div>
+    </div>
+  </body>
+</html>
