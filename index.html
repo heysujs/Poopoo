@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0d12" />
+  <meta name="description" content="COREBOUND — a first-person deep-earth mining game. Drill to the core, upgrade your rig, keep the diesel flowing." />
+  <title>COREBOUND // Deep Drill</title>
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <canvas id="world" aria-label="First-person mining game"></canvas>
+  <div class="screen-shade" aria-hidden="true"></div>
+  <div class="scanlines" aria-hidden="true"></div>
+
+  <div id="hud" class="hud">
+    <header class="hud-top">
+      <div class="brand-panel panel">
+        <span class="brand-mark">C//B</span>
+        <div>
+          <div class="brand-name">COREBOUND</div>
+          <div class="brand-sub">DEEP DRILL INITIATIVE · SITE 09</div>
+        </div>
+      </div>
+
+      <div class="depth-panel panel">
+        <div class="depth-readout">
+          <span class="micro-label">CURRENT DEPTH</span>
+          <span class="depth-value"><span id="depth-value">0</span><em>m</em></span>
+          <span class="depth-target">TARGET 6,371 m</span>
+        </div>
+        <div class="depth-track" aria-hidden="true">
+          <div id="depth-fill" class="depth-fill"></div>
+          <div id="depth-marker" class="depth-marker"><i></i></div>
+          <span class="depth-tick t1"></span><span class="depth-tick t2"></span><span class="depth-tick t3"></span>
+        </div>
+        <div class="depth-meta">
+          <span id="layer-name">SURFACE / CRUST</span>
+          <span id="depth-percent">0.0% TO CORE</span>
+        </div>
+      </div>
+
+      <div class="resource-panel panel">
+        <div class="resource">
+          <span class="resource-icon cash-icon">$</span>
+          <div><span class="micro-label">SCRIP</span><strong id="cash-value">200</strong></div>
+        </div>
+        <div class="resource">
+          <span class="resource-icon fuel-icon"></span>
+          <div><span class="micro-label">DIESEL</span><strong><span id="fuel-value">45</span><small> L</small></strong></div>
+        </div>
+        <div class="resource">
+          <span class="resource-icon tier-icon">Mk</span>
+          <div><span class="micro-label">DRILL</span><strong id="tier-value">I</strong></div>
+        </div>
+      </div>
+    </header>
+
+    <div id="cue" class="cue" aria-hidden="true">CORE PROJECT // SITE 09</div>
+
+    <div id="crosshair" class="crosshair" aria-hidden="true">
+      <span class="ch ch-top"></span><span class="ch ch-right"></span><span class="ch ch-bottom"></span><span class="ch ch-left"></span>
+      <span class="ch-dot"></span>
+      <span id="drill-ring" class="drill-ring"></span>
+    </div>
+
+    <div id="mine-readout" class="mine-readout panel">
+      <div class="mine-row"><span id="mine-layer" class="micro-label">CRUST</span><span id="mine-progress-text" class="mine-progress-text">0%</span></div>
+      <div class="rock-track"><div id="rock-fill" class="rock-fill"></div></div>
+      <div class="mine-hint" id="mine-hint">AIM AT THE FACE · HOLD LMB TO DRILL</div>
+    </div>
+
+    <div id="prompt" class="prompt">
+      <span class="key">E</span>
+      <span id="prompt-text">ENTER SCIENCE LAB</span>
+    </div>
+
+    <div id="toast-stack" class="toast-stack" aria-live="polite"></div>
+
+    <div class="hud-bottom">
+      <div class="objective-panel panel">
+        <span class="objective-flag">PRIMARY OBJECTIVE</span>
+        <span id="objective-text">Drill to the Earth's core.</span>
+      </div>
+      <div class="controls-panel panel">
+        <span><b>WASD</b> TRAVERSE</span>
+        <span><b>MOUSE</b> LOOK</span>
+        <span><b>LMB</b> DRILL</span>
+        <span><b>E</b> INTERACT</span>
+        <span><b>T</b> HOIST</span>
+      </div>
+    </div>
+
+    <div class="status-strip">
+      <span id="status-dot" class="status-dot"></span>
+      <span id="status-text">SYSTEMS NOMINAL</span>
+      <span class="status-sep">/</span>
+      <span id="mode-text">SURFACE OPERATIONS</span>
+    </div>
+  </div>
+
+  <div id="intro" class="intro">
+    <div class="intro-scrim"></div>
+    <div class="intro-content">
+      <div class="intro-eyebrow"><span></span> DEEP DRILL INITIATIVE PRESENTS <span></span></div>
+      <h1>CORE<span>BOUND</span></h1>
+      <p class="intro-tag">One hole. Six kilometres. No way but down.</p>
+      <p class="intro-copy">Run a one-man mining operation above an impossible shaft. Drill the strata, haul your ore, upgrade the rig in the science lab, and keep the diesel flowing at the depot next door.</p>
+      <div class="intro-actions">
+        <button id="start-btn" class="primary-btn" type="button"><span>BEGIN SHIFT</span><i>↘</i></button>
+        <span class="intro-note">HEADPHONES RECOMMENDED · MOUSE + KEYBOARD</span>
+      </div>
+      <div class="intro-stats">
+        <div><span>01</span><b>DRILL</b><small>Break every stratum</small></div>
+        <div><span>02</span><b>UPGRADE</b><small>Science lab, west pad</small></div>
+        <div><span>03</span><b>REFUEL</b><small>Oil depot, east pad</small></div>
+        <div><span>04</span><b>DESCEND</b><small>Reach 6,371 metres</small></div>
+      </div>
+    </div>
+    <div class="intro-footer">
+      <span>SITE 09 · NORTHERN EXCLUSION ZONE</span>
+      <span class="intro-coords">62°01'14"N &nbsp; 113°44'08"W</span>
+      <span>BUILD 0.9.7</span>
+    </div>
+  </div>
+
+  <div id="pause" class="pause hidden">
+    <div class="pause-card panel">
+      <span class="micro-label">SHIFT SUSPENDED</span>
+      <h2>PAUSED</h2>
+      <p>Click below to lock the mouse and return to the shaft.</p>
+      <button id="resume-btn" class="primary-btn" type="button"><span>RESUME SHIFT</span><i>↘</i></button>
+      <div class="pause-controls"><b>ESC</b> release mouse · <b>T</b> surface hoist</div>
+    </div>
+  </div>
+
+  <div id="modal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div id="modal-panel" class="modal-panel">
+      <button id="modal-close" class="modal-close" type="button" aria-label="Close">×</button>
+      <div id="modal-content"></div>
+    </div>
+  </div>
+
+  <div id="fade" class="fade"></div>
+  <div id="flash" class="flash"></div>
+
+  <div id="rotate-warning" class="rotate-warning">
+    <span>↻</span>
+    <b>ROTATE DEVICE</b>
+    <small>COREBOUND is best played in landscape with a keyboard and mouse.</small>
+  </div>
+
+  <noscript>This experience needs JavaScript and WebGL.</noscript>
+  <script type="module" src="./game.js"></script>
+</body>
+</html>
